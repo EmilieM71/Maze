@@ -1,6 +1,6 @@
 # Importing modules
 import pygame
-from pygame.locals import QUIT, KEYDOWN, K_ESCAPE, K_RIGHT # K_LEFT, K_UP, K_DOWN
+from pygame.locals import QUIT, KEYDOWN, K_ESCAPE, K_RIGHT, K_DOWN, K_LEFT, K_UP
 from Maze.constants import *
 from Maze.class_game.maze import Maze
 from Maze.class_game.hero import Hero
@@ -47,6 +47,9 @@ syringe = pygame.transform.scale(pygame.image.load(syringe_image).convert_alpha(
 level = Maze("level/level1")
 level.load_from_file()
 
+# Create the hero
+mg = Hero(level)
+
 # Variable that define which object is caught or not
 tube_catch = False
 ether_catch = False
@@ -66,14 +69,9 @@ while main_loop:
     level.display(window, wall0, wall1, wall2, wall3, wall4, wall5,
                   wall6, wall7, wall8, wall9, needle, tube, ether)
     window.blit(start, level.start.position)
-    window.blit(hero, level.start.position)
     window.blit(end, level.end.position)
     window.blit(keeper, level.end.position)
 
-    # Create the hero
-    mg = Hero(level)
-    mg_position = Position(0, 0)
-    print(mg.position)
     for event in pygame.event.get():  # We track the list of all the events received
         # If user quit the program stop or if the user presses a ESCAPE key
         if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
@@ -83,26 +81,36 @@ while main_loop:
             # If the key is right
             if event.key == K_RIGHT:
                 p = mg.position.right()
-                print(p)
-                print(level.is_path_position(p))
                 if level.is_path_position(p):
                     mg.position = mg.position.right()
 
             # If the key is lefl
-            # if event.key == K_LEFT:
-                # mg.move('left')
+            if event.key == K_LEFT:
+                p = mg.position.left()
+                if level.is_path_position(p):
+                    mg.position = mg.position.left()
 
             # If the key is up
-            # if event.key == K_UP:
-                # mg.move('up')
+            if event.key == K_UP:
+                p = mg.position.up()
+                if level.is_path_position(p):
+                    mg.position = mg.position.up()
 
             # If the key is down
-            # if event.key == K_DOWN:
-                # mg.move('down')
+            if event.key == K_DOWN:
+                p = mg.position.down()
+                if level.is_path_position(p):
+                    mg.position = mg.position.down()
+                    print(mg.position)
 
     # Display new positions
-    level.display(window, wall0, wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
-                  needle, tube, ether)
+    pygame.draw.rect(window, (0, 0, 0), (0, 0, 450, 450))
+    level.display(window, wall0, wall1, wall2, wall3, wall4, wall5,
+                  wall6, wall7, wall8, wall9, needle, tube, ether)
+    window.blit(start, level.start.position)
+    window.blit(end, level.end.position)
+    window.blit(keeper, level.end.position)
     window.blit(hero, mg.position.position)
+    print(mg.position.position)
     pygame.display.flip()
 
