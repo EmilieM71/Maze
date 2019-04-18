@@ -1,8 +1,10 @@
 # Importing modules
 import pygame
-from pygame.locals import QUIT, KEYDOWN, K_ESCAPE
+from pygame.locals import QUIT, KEYDOWN, K_ESCAPE, K_RIGHT # K_LEFT, K_UP, K_DOWN
 from constants import *
 from class_game.maze import Maze
+from class_game.hero import Hero
+from class_game.position import Position
 
 
 # Pygame initialization
@@ -44,21 +46,57 @@ syringe = pygame.transform.scale(pygame.image.load(syringe_image).convert_alpha(
 # Create maze
 level = Maze("level/level1")
 level.load_from_file()
-position_hero = level.start
-position_guardian = level.end
+
+# Variable that define which object is caught or not
+tube_catch = False
+ether_catch = False
+needle_catch = False
+inventory_objects = 0
 
 # Variable that continues the loop if = 1, stops if = 0
 main_loop = 1
 
 # Main loop
 while main_loop:
+
+    # Loop Speed Limitation
+    pygame.time.Clock().tick(30)
+
+    # Display maze in window
+    level.display(window, wall0, wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
+                  needle, tube, ether)
+    window.blit(start, (0, 0))
+    window.blit(hero, (0, 0))
+    window.blit(end, (420, 420))
+    window.blit(keeper, (420, 420))
+
+    # Create the hero
+    mg = Hero(level)
+    mg_position = Position(0, 0)
+
     for event in pygame.event.get():  # We track the list of all the events received
         # If user quit the program stop or if the user presses a ESCAPE key
         if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
             main_loop = 0
 
-    level.display(window, start, end, keeper, wall0, wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
-                  needle, tube, ether)
+        if event.type == KEYDOWN:
+            # If the key is right
+            if event.key == K_RIGHT:
+                p = mg_position.right()
+                if level.is_path_position(p):
+                    mg.move(Position.right(mg_position))
+
+            # If the key is lefl
+            # if event.key == K_LEFT:
+                # mg.move('left')
+
+            # If the key is up
+            # if event.key == K_UP:
+                # mg.move('up')
+
+            # If the key is down
+            # if event.key == K_DOWN:
+                # mg.move('down')
 
     pygame.display.flip()
 
