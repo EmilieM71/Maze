@@ -63,17 +63,17 @@ while main_loop:
     pygame.time.Clock().tick(30)
 
     # Display maze in window
-    level.display(window, wall0, wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
-                  needle, tube, ether)
-    window.blit(start, (0, 0))
-    window.blit(hero, (0, 0))
-    window.blit(end, (420, 420))
-    window.blit(keeper, (420, 420))
+    level.display(window, wall0, wall1, wall2, wall3, wall4, wall5,
+                  wall6, wall7, wall8, wall9, needle, tube, ether)
+    window.blit(start, level.start.position)
+    window.blit(hero, level.start.position)
+    window.blit(end, level.end.position)
+    window.blit(keeper, level.end.position)
 
     # Create the hero
     mg = Hero(level)
     mg_position = Position(0, 0)
-
+    print(mg.position)
     for event in pygame.event.get():  # We track the list of all the events received
         # If user quit the program stop or if the user presses a ESCAPE key
         if event.type == QUIT or event.type == KEYDOWN and event.key == K_ESCAPE:
@@ -82,9 +82,11 @@ while main_loop:
         if event.type == KEYDOWN:
             # If the key is right
             if event.key == K_RIGHT:
-                p = mg_position.right()
+                p = mg.position.right()
+                print(p)
+                print(level.is_path_position(p))
                 if level.is_path_position(p):
-                    mg.move(Position.right(mg_position))
+                    mg.position = mg.position.right()
 
             # If the key is lefl
             # if event.key == K_LEFT:
@@ -98,5 +100,9 @@ while main_loop:
             # if event.key == K_DOWN:
                 # mg.move('down')
 
+    # Display new positions
+    level.display(window, wall0, wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9,
+                  needle, tube, ether)
+    window.blit(hero, mg.position.position)
     pygame.display.flip()
 
