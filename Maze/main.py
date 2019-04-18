@@ -1,10 +1,10 @@
 # Importing modules
 import pygame
 from pygame.locals import QUIT, KEYDOWN, K_ESCAPE, K_RIGHT # K_LEFT, K_UP, K_DOWN
-from constants import *
-from class_game.maze import Maze
-from class_game.hero import Hero
-from class_game.position import Position
+from Maze.constants import *
+from Maze.class_game.maze import Maze
+from Maze.class_game.hero import Hero
+from Maze.class_game.position import Position
 
 
 # Pygame initialization

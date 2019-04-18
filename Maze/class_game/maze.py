@@ -1,5 +1,5 @@
-from class_game.position import Position
-from constants import *
+from Maze.class_game.position import Position
+from Maze.constants import *
 from random import sample
 
 

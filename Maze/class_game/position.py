@@ -1,4 +1,4 @@
-from constants import size_sprite
+from Maze.constants import size_sprite
 
 
 class Position:
