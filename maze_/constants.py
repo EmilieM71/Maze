@@ -1,5 +1,7 @@
 """Game constants"""
 
+# -tc- Nommer toutes les constantes en majuscules (PEP8)
+
 # Constantes file
 start_char = 's'
 end_char = 'e'
