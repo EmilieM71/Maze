@@ -4,6 +4,8 @@ class Hero:
         self.maze = maze
         self.position = self.maze.start
 
+    # -tc- Tu as bien une méthode move, mais tu ne l'utilise pas dans
+    # -tc- ton code
     def move(self, direction):
         """Déplacer le personnage"""
         new_position = getattr(self.position, direction)()
